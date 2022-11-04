@@ -1,0 +1,110 @@
+type CompositeFairing {
+  diameter: Diameter
+  height: Height
+}
+type Diameter {
+  feet: Float
+  meters: Float
+}
+
+type Engines {
+  engine_loss_max: Int
+  isp: Isp
+  layout: String
+  number: Int
+  propellant_1: String
+  propellant_2: String
+  thrust_sea_level: ThrustSeaLevel
+  thrust_to_weight: Float
+  thrust_vacuum: ThrustVacuum
+  type: String
+  version: String
+}
+type FirstStage {
+  burn_time_sec: Int
+  engines: Int
+  fuel_amount_tons: Float
+  reusable: Boolean
+  thrust_sea_level: ThrustSeaLevel
+  thrust_vacuum: ThrustVacuum
+}
+type Height {
+  feet: Float
+  meters: Float
+}
+
+type Isp {
+  sea_level: Int
+  vacuum: Int
+}
+type LandingLegs {
+  material: String
+  number: Int
+}
+type Mass {
+  kg: Int
+  lb: Int
+}
+type PayloadWeightsEntry {
+  id: String
+  kg: Int
+  lb: Int
+  name: String
+}
+type Payloads {
+  composite_fairing: CompositeFairing
+  option_1: String
+}
+type Rocket {
+  active: Boolean
+  boosters: Int
+  company: String
+  cost_per_launch: Int
+  country: String
+  description: String
+  diameter: Diameter
+  engines: Engines
+  first_flight: Date
+  first_stage: FirstStage
+  flickr_images: [String]
+  height: Height
+  id: String
+  landing_legs: LandingLegs
+  mass: Mass
+  name: String
+  payload_weights: [PayloadWeightsEntry]
+  second_stage: SecondStage
+  stages: Int
+  success_rate_pct: Int
+  type: String
+  wikipedia: String
+}
+type SecondStage {
+  burn_time_sec: Int
+  engines: Int
+  fuel_amount_tons: Float
+  payloads: Payloads
+  reusable: Boolean
+  thrust: Thrust
+}
+type Thrust {
+  kN: Int
+  lbf: Int
+}
+type ThrustSeaLevel {
+  kN: Int
+  lbf: Int
+}
+
+type ThrustVacuum {
+  kN: Int
+  lbf: Int
+}
+
+
+type Query {
+  rockets: [Rocket]
+    @rest(endpoint: "https://api.spacexdata.com/v4/rockets")
+  rocket(id: ID!): Rocket
+    @rest(endpoint: "https://api.spacexdata.com/v4/rockets/$id")
+}

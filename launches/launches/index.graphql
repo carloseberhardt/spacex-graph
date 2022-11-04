@@ -1,0 +1,94 @@
+type Core {
+  core: String
+  flight: Int
+  gridfins: Boolean
+  landing_attempt: Boolean
+  landing_success: Boolean
+  landing_type: String
+  landpad: String
+  legs: Boolean
+  reused: Boolean
+}
+type Crew {
+  crew: String
+  role: String
+}
+type Failure {
+  altitude: Int
+  reason: String
+  time: Int
+}
+type Fairings {
+  recovered: Boolean
+  recovery_attempt: Boolean
+  reused: Boolean
+  ships: [String]
+}
+type Flickr {
+  original: [String]
+  small: [JSON]
+}
+type Launch {
+  auto_update: Boolean
+  capsules: [String]
+  cores: [Core]
+  crew: [Crew]
+  date_local: DateTime
+  date_precision: String
+  date_unix: Int
+  date_utc: DateTime
+  details: String
+  failures: [Failure]
+  fairings: Fairings
+  flight_number: Int
+  id: String
+  launch_library_id: String
+  launchpad: String
+  links: Links
+  name: String
+  net: Boolean
+  payloads: [String]
+  rocket: String
+  ships: [String]
+  static_fire_date_unix: Int
+  static_fire_date_utc: DateTime
+  success: Boolean
+  tbd: Boolean
+  upcoming: Boolean
+  window: Int
+}
+type Links {
+  article: String
+  flickr: Flickr
+  patch: Patch
+  presskit: String
+  reddit: Reddit
+  webcast: String
+  wikipedia: String
+  youtube_id: String
+}
+type Patch {
+  large: String
+  small: String
+}
+type Reddit {
+  campaign: String
+  launch: String
+  media: String
+  recovery: String
+}
+
+type Query {
+  launches: [Launch]
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches")
+  launch(id: ID!): Launch
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches/$id")
+  latestLaunch: Launch
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches/latest")
+  nextLaunch: Launch
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches/next")
+  upcomingLaunches: [Launch]
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches/upcoming")
+  pastLaunches: [Launch]
+    @rest(endpoint: "https://api.spacexdata.com/v5/launches/past")
+}

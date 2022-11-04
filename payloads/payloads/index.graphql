@@ -1,0 +1,57 @@
+type PayloadDragon {
+  capsule: String
+  flight_time_sec: Int
+  land_landing: Boolean
+  manifest: String
+  mass_returned_kg: Float
+  mass_returned_lbs: Float
+  water_landing: Boolean
+}
+type Payload {
+  apoapsis_km: Float
+  arg_of_pericenter: Float
+  customers: [String]
+  dragon: PayloadDragon
+  eccentricity: Float
+  epoch: DateTime
+  id: String
+  inclination_deg: Float
+  launch: String
+  lifespan_years: Float
+  longitude: Float
+  manufacturers: [String]
+  mass_kg: Float
+  mass_lbs: Float
+  mean_anomaly: Float
+  mean_motion: Float
+  name: String
+  nationalities: [String]
+  norad_ids: [Int]
+  orbit: String
+  periapsis_km: Float
+  period_min: Float
+  raan: Float
+  reference_system: String
+  regime: String
+  reused: Boolean
+  semi_major_axis_km: Float
+  type: String
+}
+
+type Query {
+  payloads: [Payload]
+    @rest(endpoint: "https://api.spacexdata.com/v4/payloads")
+  payload(id: ID!): Payload
+    @rest(endpoint: "https://api.spacexdata.com/v4/payloads/$id")
+  payloadsByIds(ids: [String]): [Payload]
+    @rest(
+      endpoint: "https://api.spacexdata.com/v4/payloads/query"
+      method: POST 
+      postbody: """
+      { "query": 
+      {"_id": {"$in": {{.GetJSON "ids"}} }} }
+      """
+      configuration: "payload_config"
+      resultroot: "docs[]"
+    )
+}
